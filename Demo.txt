@@ -1,3 +1,12 @@
 Demo file, created directly in Git.
+This is a simple text document.
 
-Edited directly in GitHub.
+Hello from Bob.
+Hello from Alice.
+
+I am Bob.
+I am Alan.
+
+Created By Vladi for Demo(09.06.22)
+
+Code for habit(14.06.22)
