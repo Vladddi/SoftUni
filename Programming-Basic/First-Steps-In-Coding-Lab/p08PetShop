@@ -1,0 +1,23 @@
+
+import java.util.Scanner;
+
+public class p08PetShop {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int numDogs = Integer.parseInt
+
+(scanner.nextLine());
+        int numPets = Integer.parseInt
+
+(scanner.nextLine());
+
+        double foodDogs = numDogs * 2.50;
+        double foodPets = numPets * 4;
+
+        double totalSum = foodDogs + foodPets;
+
+        System.out.println(totalSum + " lv.");
+
+    }
+}
