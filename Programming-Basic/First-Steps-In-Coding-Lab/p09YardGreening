@@ -1,0 +1,25 @@
+package FirstStepsInCodingLab;
+
+import java.util.Scanner;
+
+public class p09YardGreening {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Прочитане на входни данни
+//        1.	Кв. метри, които ще бъдат озеленени – реално число в интервала [0.00… 10000.00]
+        double landscapingArea = Double.parseDouble(scanner.nextLine());
+
+        // Пресмятания
+        double landscapingPrice = landscapingArea * 7.61;
+        double discount = landscapingPrice - (landscapingPrice * 0.18);
+        double totalPrice = landscapingPrice - discount;
+
+        // Печатане на резултата
+//•	"The final price is: {крайна цена на услугата} lv."
+//•	"The discount is: {отстъпка} lv."
+        System.out.printf("The final price is: %.2f lv.%n", discount);
+        System.out.printf("The discount is: %.2f lv.", totalPrice);
+
+    }
+}
