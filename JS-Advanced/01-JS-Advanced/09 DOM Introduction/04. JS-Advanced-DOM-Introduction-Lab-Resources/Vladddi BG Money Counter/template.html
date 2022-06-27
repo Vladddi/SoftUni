@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="template.css">
+    <title>БГ брояч на банкноти</title>
+</head>
+
+<body>
+    <table>
+        <tbody>
+            <tr>
+                <th>Копюри</th>
+                <th>Количество</th>
+                <th>Стойност</th>
+            </tr>
+            <tr>
+                <div class="100leva">
+                    <img src="/Vladddi BG Money Counter/Pictures coints Numbers/100_leva.jpg"></div>
+                <td>100лв.</td>
+                <td id="100count"><input input type="text" id="num1" ></td>
+                <td id="100total"><input></td>
+            </tr>
+            <tr>
+                <td>50лв.</td>
+                <td id="50count"><input></td>
+                <td id="50total"><input></td>
+            </tr>
+            <tr>
+                <td>20лв.</td>
+                <td id="20count"><input></td>
+                <td id="20total"><input></td>
+            </tr>
+            <tr>
+                <td>10лв.</td>
+                <td id="10count"><input></td>
+                <td id="10total"><input></td>
+            </tr>
+            <tr>
+                <td>5лв.</td>
+                <td id="10count"><input></td>
+                <td id="10total"><input></td>
+            </tr>
+            <tr>
+                <td>Total:</td>
+                <td></td>
+                <td id="sum"><input></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="calculate()">Sum</button>
+    <script src="calc.js"></script>
+</body>
+
+</html>

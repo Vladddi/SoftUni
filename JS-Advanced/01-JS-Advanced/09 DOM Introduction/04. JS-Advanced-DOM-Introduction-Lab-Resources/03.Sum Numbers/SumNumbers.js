@@ -1,0 +1,12 @@
+function calc() {
+    // read value of two input fields
+    const num1 = Number(document.getElementById('num1').value);
+    const num2 = Number(document.getElementById('num2').value);
+    // sum value 
+
+    const sum = num1 + num2;
+
+    // set result as value of output field
+    document.getElementById('sum').value = sum;
+
+}
