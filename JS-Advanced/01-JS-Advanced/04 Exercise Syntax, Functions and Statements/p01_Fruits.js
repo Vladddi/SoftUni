@@ -1,0 +1,7 @@
+function calcFruits(fruit, weight, money) {
+    const weightInKg = weight/1000;
+    const moneyNeeded = weightInKg * money;
+
+    console.log(`I need $${moneyNeeded.toFixed(2)} to buy ${weightInKg.toFixed(2)} kilograms ${fruit}.`)
+}
+calcFruits('orange', 2500, 1.80);
