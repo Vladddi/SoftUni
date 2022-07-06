@@ -1,0 +1,9 @@
+function convertorUSDtoBGN(input) {
+    let usd = Number(input[0]) * 1.79549;
+
+    console.log(usd);
+}
+
+convertorUSDtoBGN(["22"]);
+convertorUSDtoBGN(["100"]);
+convertorUSDtoBGN(["12.5"]);
