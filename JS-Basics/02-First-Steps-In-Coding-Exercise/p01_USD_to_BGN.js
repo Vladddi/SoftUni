@@ -1,7 +1,8 @@
 function convertorUSDtoBGN(input) {
-    let usd = Number(input[0]) * 1.79549;
-
-    console.log(usd);
+    let usd = Number(input[0]);
+    let bgn = usd * 1.79549;
+    
+    console.log(bgn);
 }
 
 convertorUSDtoBGN(["22"]);
