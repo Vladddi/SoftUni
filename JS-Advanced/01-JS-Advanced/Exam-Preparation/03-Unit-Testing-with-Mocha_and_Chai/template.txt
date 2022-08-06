@@ -1,0 +1,24 @@
+npm init
+npm mocha
+npm chai
+
+change the test in package json -> 
+test: 'mocha nameFile'
+
+module.exports = nameFile;
+
+
+const {expect} = require('chai'); 
+const numberOperations = require('./nameFile');
+
+describe('', () => {
+    describe('', () => {
+        it('', () => {});
+    });
+    describe('', () => {
+        it('', () => {});
+    });
+    describe('', () => {
+        it('', () => {});
+    });
+});
