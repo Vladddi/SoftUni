@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="template.css">
+    <title>Modal Demo</title>
+    <style>
+        .demo-modal {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background-color: rgba(80, 80, 80, 0.315);
+        }
+
+        .modal-dialog {
+            display: block;
+            width: 300px;
+            margin: auto;
+            margin-top: 40vh;
+            background-color: white;
+            box-shadow: 5px 5px 15px 5px #00000050;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .modal-dialog > span {
+            display: block;
+            margin-bottom: 32px;
+        }
+
+        .modal-dialog > button {
+            font-size: 110%;
+            padding: 4px 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="exercise">
+            <h1>Furniture List</h1>
+            <textarea rows="5" cols="50"></textarea>
+            <button>Generate</button>
+
+            <div class="wrapper">
+                <div class="card-wrapper">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Decoration factor</th>
+                                        <th scope="col">Mark</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img
+                                                src="https://www.lidl-shop.nl/media/fcf868f9526b38d0b0a43cc2ace72b80.jpeg">
+                                        </td>
+                                        <td>
+                                            <p>Office chair</p>
+                                        </td>
+                                        <td>
+                                            <p>160</p>
+                                        </td>
+                                        <td>
+                                            <p>0.5</p>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" disabled />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <textarea rows="4" cols="50" disabled></textarea>
+            <button>Buy</button>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+class Modal {
+    constructor(message = 'Alert') {
+        this.message = message;
+        this.element = this._init();
+        this.render();
+    }
+
+    _init() {
+        const overlay = e('div', {
+                className: 'demo-modal'
+            },
+            e('div', {
+                    className: 'modal-dialog'
+                },
+                e('span', {}, this.message),
+                button('OK', this.onClose.bind(this)))
+        );
+        return overlay;
+    }
+
+    render() {
+        document.body.appendChild(this.element);
+    }
+
+    onClose() {
+        this.element.remove();
+    }
+}
