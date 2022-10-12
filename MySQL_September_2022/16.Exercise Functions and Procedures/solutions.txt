@@ -1,0 +1,210 @@
+1.	# 1. Employees with Salary Above 35000
+2.	DELIMITER && 
+3.	CREATE PROCEDURE usp_get_employees_salary_above_35000()
+4.	BEGIN
+5.	  SELECT `first_name`, `last_name`
+6.	  FROM `employees`
+7.	  WHERE `salary` > 35000
+8.	  ORDER BY `first_name`, `last_name`, `employee_id`;
+9.	END &&  
+10.	DELIMITER ;
+11.	 
+12.	# 2. Employees with Salary Above Number
+13.	DELIMITER && 
+14.	CREATE PROCEDURE usp_get_employees_salary_above (desired_salary DECIMAL(19,4))
+15.	BEGIN
+16.	  SELECT `first_name`, `last_name` 
+17.	  FROM `employees`
+18.	  WHERE `salary` >= `desired_salary`
+19.	  order by `first_name`, `last_name`, `employee_id`;
+20.	END &&  
+21.	DELIMITER ;
+22.	 
+23.	# 3. Town Names Starting With
+24.	DELIMITER && 
+25.	CREATE PROCEDURE usp_get_towns_starting_with (town_substring VARCHAR(50))
+26.	BEGIN
+27.	  SELECT `name` 
+28.	  FROM `towns`
+29.	  WHERE `name` like CONCAT(town_substring,'%')
+30.	  order by `name`;
+31.	END &&  
+32.	DELIMITER ;
+33.	 
+34.	# 4.    Employees from Town
+35.	DELIMITER && 
+36.	CREATE PROCEDURE usp_get_employees_from_town (searched_town VARCHAR(50))
+37.	BEGIN
+38.	  SELECT `first_name`, `last_name`
+39.	  FROM `employees` AS e
+40.	  JOIN `addresses` AS a USING (address_id)
+41.	  JOIN `towns` AS t USING (town_id)
+42.	  WHERE t.`name` = `searched_town`
+43.	  ORDER BY `first_name`,`last_name`;
+44.	END &&  
+45.	DELIMITER ;
+46.	 
+47.	# 5. Salary Level Function
+48.	DELIMITER && 
+49.	CREATE FUNCTION ufn_get_salary_level(salary DECIMAL(19, 4))
+50.	RETURNS VARCHAR(8)
+51.	DETERMINISTIC
+52.	BEGIN
+53.	    DECLARE salary_level VARCHAR(8);
+54.	    IF salary < 30000 THEN SET salary_level := 'Low';
+55.	    ELSEIF salary <= 50000 THEN SET salary_level := 'Average';
+56.	    ELSE SET salary_level := 'High';
+57.	    END IF;
+58.	    RETURN salary_level;
+59.	END &&  
+60.	DELIMITER ;
+61.	 
+62.	# 6. Employees by Salary Level
+63.	DELIMITER &&
+64.	CREATE PROCEDURE usp_get_employees_by_salary_level(salary_level VARCHAR(8)) 
+65.	BEGIN
+66.	    SELECT first_name, last_name
+67.	    FROM employees
+68.	    WHERE ufn_get_salary_level(salary) LIKE salary_level
+69.	    ORDER BY first_name DESC, last_name DESC;
+70.	END &&  
+71.	DELIMITER ;
+72.	 
+73.	# 7. Define Function
+74.	DELIMITER &&
+75.	CREATE FUNCTION ufn_is_word_comprised(set_of_letters VARCHAR(50), word VARCHAR(50))
+76.	RETURNS INT
+77.	DETERMINISTIC
+78.	BEGIN
+79.	    RETURN word REGEXP (CONCAT('^[', set_of_letters, ']+$'));
+80.	END &&  
+81.	DELIMITER ;
+82.	 
+83.	# 8. Find Full Name
+84.	DELIMITER &&
+85.	CREATE PROCEDURE usp_get_holders_full_name() 
+86.	BEGIN
+87.	  SELECT CONCAT(`first_name`, " ", `last_name`) AS `full_name`
+88.	  FROM `account_holders`
+89.	  ORDER BY `full_name`, `id`;
+90.	END &&  
+91.	DELIMITER ;
+92.	 
+93.	# 9. People with Balance Higher Than
+94.	DELIMITER &&
+95.	CREATE PROCEDURE usp_get_holders_with_balance_higher_than(money decimal(12,4))
+96.	BEGIN
+97.	    SELECT `first_name`, `last_name`
+98.	    FROM `account_holders` as h
+99.	    Left JOIN `accounts` as a ON h.`id` = a.`account_holder_id`
+100.	    GROUP BY `first_name`, `last_name`
+101.	    HAVING SUM(a.`balance`) > `money`
+102.	    ORDER BY a.`account_holder_id`;
+103.	END &&
+104.	DELIMITER ;
+105.	 
+106.	# 10. Future Value Function
+107.	DELIMITER &&
+108.	CREATE FUNCTION ufn_calculate_future_value(sum DECIMAL(19, 4), yearly_interest DOUBLE, yers INT)
+109.	RETURNS DECIMAL(19, 4)
+110.	DETERMINISTIC
+111.	BEGIN
+112.	    DECLARE future_sum DECIMAL(19, 4);
+113.	    SET future_sum := sum * POW(1 + yearly_interest, yers);
+114.	    RETURN future_sum;
+115.	END &&
+116.	DELIMITER ;
+117.	 
+118.	# 11. Calculating Interest
+119.	DELIMITER &&
+120.	CREATE PROCEDURE usp_calculate_future_value_for_account(id INT, interest_rate DECIMAL(19,4))
+121.	BEGIN
+122.	    SELECT a.`id` AS 'account_id', ah.`first_name`, ah.`last_name`, 
+123.	    a.`balance` AS 'current_balance', ufn_calculate_future_value(a.balance, interest_rate, 5) AS 'balance_in_5_years'
+124.	    FROM `account_holders` AS ah
+125.	    JOIN `accounts` AS a ON a.`account_holder_id` = ah.`id`
+126.	    WHERE a.`id` = id;
+127.	END &&
+128.	DELIMITER ;
+129.	 
+130.	# 12.   Deposit Money
+131.	DELIMITER &&
+132.	CREATE PROCEDURE usp_deposit_money(id INT, money_amount DECIMAL(19,4))
+133.	BEGIN
+134.	    START TRANSACTION;
+135.	    IF(money_amount <= 0 ) THEN
+136.	    ROLLBACK;
+137.	    ELSE
+138.	        UPDATE `accounts` AS ac SET ac.`balance` = ac.`balance` + money_amount
+139.	        WHERE ac.`id` = id;
+140.	    END IF; 
+141.	END
+142.	DELIMITER ;
+143.	 
+144.	# 13. Withdraw Money
+145.	DELIMITER &&
+146.	CREATE PROCEDURE usp_withdraw_money(id int, money_amount decimal(19,4))
+147.	BEGIN
+148.	    START TRANSACTION;
+149.	    IF (money_amount <= 0 OR (SELECT `balance` FROM accounts AS a WHERE a.`id` = id) < money_amount) THEN
+150.	    ROLLBACK;
+151.	    ELSE
+152.	        UPDATE accounts as ac SET ac.balance = ac.balance - money_amount
+153.	        WHERE ac.id = id;
+154.	        COMMIT;
+155.	    END IF; 
+156.	END&&
+157.	 
+158.	# 14.   Money Transfer
+159.	DELIMITER &&
+160.	CREATE PROCEDURE usp_transfer_money(fromID int, toID int,money_amount decimal(19,4))
+161.	BEGIN
+162.	    START TRANSACTION;
+163.	    IF(money_amount <= 0 OR (SELECT `balance` from `accounts` where `id` = fromID) < money_amount
+164.	    OR fromID = toID 
+165.	    OR (SELECT COUNT(id) FROM `accounts` WHERE `id` = fromID) <> 1
+166.	    OR (SELECT COUNT(id) FROM `accounts` WHERE `id` = toID) <> 1) 
+167.	    THEN ROLLBACK;
+168.	    ELSE
+169.	        UPDATE `accounts` SET `balance` = `balance` - money_amount
+170.	        WHERE `id` = fromID;
+171.	        UPDATE `accounts` SET `balance` = `balance` + money_amount
+172.	        WHERE `id` = toID;
+173.	        COMMIT;
+174.	    END IF; 
+175.	END&&
+176.	 
+177.	# 15. Log Accounts Trigger
+178.	CREATE TABLE `logs`(
+179.	    `log_id` INT PRIMARY KEY AUTO_INCREMENT, 
+180.	    `account_id` INT NOT NULL,
+181.	    `old_sum` DECIMAL(19, 4) NOT NULL,
+182.	    `new_sum` DECIMAL(19, 4) NOT NULL
+183.	);
+184.	DELIMITER $$
+185.	CREATE TRIGGER tr_change_balance
+186.	AFTER UPDATE ON `accounts`
+187.	FOR EACH ROW
+188.	BEGIN
+189.	    INSERT INTO `logs`(`account_id`, `old_sum`, `new_sum`) 
+190.	    VALUES (OLD.id, OLD.balance, NEW.balance);
+191.	END$$
+192.	 
+193.	# 16. Emails Trigger 
+194.	CREATE TABLE `notification_emails`(
+195.	    `id` INT PRIMARY KEY AUTO_INCREMENT, 
+196.	    `recipient` INT NOT NULL,
+197.	    `subject` TEXT,
+198.	    `body` TEXT
+199.	);
+200.	DELIMITER $$
+201.	CREATE TRIGGER tr_email_on_change_balance
+202.	AFTER INSERT
+203.	ON `logs`
+204.	FOR EACH ROW
+205.	BEGIN
+206.	    INSERT INTO `notification_emails`(`recipient`, `subject`, `body`)
+207.	    VALUES (NEW.`account_id`, concat_ws(' ', 'Balance change for account:', NEW.`account_id`), concat_ws(' ', 'On', NOW(), 'your balance was changed from', NEW.`old_sum`, 'to', NEW.`new_sum`, '.'));
+208.	END$$
+209.	 
+
