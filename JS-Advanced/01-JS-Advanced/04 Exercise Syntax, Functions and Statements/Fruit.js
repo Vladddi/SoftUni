@@ -1,13 +1,7 @@
-function fruit([arg1, arg2, arg3]) {
-    let fruit = arg1;
-    let weight = parseInt(arg2);
-    let price = parseFloat(arg3);
-    const weightInKg = (weight / 1000).toFixed(2);
-
-    const moneyNeeded = (weightInKg * price).toFixed(2);
-
-    console.log(`I need $${moneyNeeded} to buy ${weightInKg} kilograms ${fruit}.`)
-
-}
-fruit(['orange', 2500, 1.80]);
-fruit(['apple', 1563, 2.35]);
+function solve(fruit,grams,price) {
+let kg=grams/1000
+let finalPrice=kg*price
+console.log(`I need $${finalPrice.toFixed(2)} to buy ${kg.toFixed(2)} kilograms ${fruit}.`);
+} 
+fruit('orange', 2500, 1.80);
+fruit('apple', 1563, 2.35);
