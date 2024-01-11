@@ -1,4 +1,4 @@
-function solve(num, com1, com2, com3, com4, com5) {
+function cookingByNumber(num, com1, com2, com3, com4, com5) {
     let number = +num;
 
     const arr = [com1, com2, com3, com4, com5];
@@ -15,5 +15,5 @@ function solve(num, com1, com2, com3, com4, com5) {
     }
 }
 
-console.log(solve('32', 'chop', 'chop', 'chop', 'chop', 'chop'))
-console.log(solve('9', 'dice', 'spice', 'chop', 'bake', 'fillet'))
+console.log(cookingByNumber('32', 'chop', 'chop', 'chop', 'chop', 'chop'))
+console.log(cookingByNumber('9', 'dice', 'spice', 'chop', 'bake', 'fillet'))
