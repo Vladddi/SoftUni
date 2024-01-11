@@ -1,12 +1,15 @@
-function solve(string) {
-    
-    let message = string.split(/\W+/);
-    const upperCase = message.map(words => words.toUpperCase());
-    
-    
+function wordsUppercase(string) {
+
+    let result = string.toUpperCase()
+        .split(/[\W]+/)
+        .filter(w => w.length > 0)
+        .join(", ");
+
+    console.log(result);
+
 }
 
-solve('Hi, how are you?');
-solve('hello');
+wordsUppercase('Hi, how are you?');
+wordsUppercase('hello');
 
 //output(HI, HOW, ARE, YOU)
